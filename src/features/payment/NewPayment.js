@@ -1,11 +1,15 @@
-import { useSelector } from 'react-redux'
-import { selectAllPayments } from '../payment/paymentsApiSlice'
 import NewPaymentForm from './NewPaymentForm'
+import { useGetPaymentsQuery } from '../payment/paymentsApiSlice'
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const NewPayment  = () => {
-    const payments = useSelector(selectAllPayments)
+    const { payments } = useGetPaymentsQuery ("paymentsList", {
+        selectFromResult: ({ data }) => ({
+            payments: data?.ids.map(id => data?.entities[id])
+        }),
+    })
 
-    if (!payments?.length) return <p>Not Currently Available</p>
+    if (!payments?.length) return <PulseLoader color={"#FFF"}/>
 
     const content = <NewPaymentForm payments={payments} />
 

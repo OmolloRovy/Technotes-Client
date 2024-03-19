@@ -9,10 +9,12 @@ const initialState = paymentsAdapter.getInitialState();
 export const paymentsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
       getPayments: builder.query({
-          query: () => '/payments',
-          validateStatus: (response, result) => {
-              return response.status === 200 && !result.isError
-          },
+        query: () => ({
+            url: '/payments',
+            validateStatus: (response, result) => {
+                return response.status === 200 && !result.isError
+            },
+        }),
           
           transformResponse: responseData => {
               const loadedPayments = responseData.map(payment => {

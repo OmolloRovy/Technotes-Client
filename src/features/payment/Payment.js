@@ -1,20 +1,25 @@
 import React from 'react'
 import {useNavigate} from "react-router-dom";
-import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
-import { selectPaymentById } from './paymentsApiSlice'
+import { useGetPaymentsQuery } from './paymentsApiSlice';
+import { memo } from 'react';
 
 
 const Payment = ({paymentId}) => {
-  const payment = useSelector(state => selectPaymentById(state, paymentId))
+    const { payment } =useGetPaymentsQuery("paymentsList", {
+        selectFromResult: ({ data }) => ({
+            payment: data?.entities[paymentId]
+        }),
+    })
+   
 
   const navigate = useNavigate()
 
   if (payment) {
     
 
-      const updated = new Date(payment.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long' })
+    //   const updated = new Date(payment.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long' })
 
       const handleEdit = () => navigate(`/dash/payments/${paymentId}`)
 
@@ -25,7 +30,7 @@ const Payment = ({paymentId}) => {
               <td className="table__cell note__created">{payment.change}</td>
               <td className="table__cell note__created">{payment.otherMethods}</td>
               <td className="table__cell note__created">{payment.remarks}</td>
-              <td className="table__cell note__updated">{updated}</td>
+              {/* <td className="table__cell note__updated">{updated}</td> */}
             
               <td className="table__cell">
                   <button
@@ -40,5 +45,6 @@ const Payment = ({paymentId}) => {
 
   } else return null
 }
+const memoizedPayment= memo(Payment)
 
-export default Payment
+export default memoizedPayment

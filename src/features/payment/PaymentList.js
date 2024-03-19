@@ -1,18 +1,29 @@
 import React from "react";
 import { useGetPaymentsQuery } from "./paymentsApiSlice";
 import Payment from "./Payment";
+import { PulseLoader } from "react-spinners";
+import useTitle from "../../hooks/useTItle";
+
 const PaymentList = () => {
+
+useTitle('TechNotes : Payment Lists')
   const {
     data: payments,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetPaymentsQuery();
+  } = useGetPaymentsQuery('paymentsList',{
+    pollingInterval: 15000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true
+  });
 
   let content;
 
-  if (isLoading) content = <p>Loading...</p>;
+  
+
+  if (isLoading) return <PulseLoader color={"#FFF"} />
 
   if (isError) {
     content = <p className="errmsg">{error?.data?.message}</p>;
@@ -45,6 +56,12 @@ const PaymentList = () => {
             </th>
             <th scope="col" className="table__th user__created">
             Remarks
+            </th>
+            {/* <th scope="col" className="table__th user__created">
+            Updated
+            </th> */}
+            <th scope="col" className="table__th user__created">
+            Edit
             </th>
           </tr>
         </thead>

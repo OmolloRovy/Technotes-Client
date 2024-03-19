@@ -13,21 +13,29 @@ const Public = () => {
                 <br />
                 <p className='public__p1'>We are located in Beautiful Downtown City. We provide a trained staff ready to meet your tech repair needs. Let's bring your machine back to life again.</p>
                 
-            </main>
-            <footer>
-                <ul>
-                    <li><a href="tel:+254714924394"><i className="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                </ul>
-                <Link to="/login">Employee Login</Link>
+                <br/>
+                <br/>
+                <br/>
+               
                 <p className='FindUs'>Find Us At</p>
                 <div className='addr'>
-                    <address className="public__addr">
+                    <address className="public__addrr">
                         IntoTech Repairs<br />
                         555 Night Drive<br />
                         Downtown City, 13345<br />
                         <a href="tel:+254714924394">(+254) 7149-24394</a>
                     </address>
                 </div>
+
+            </main>
+            <footer>
+                <ul>
+                    {/* <li><a href="tel:+254714924394"><i className="fa fa-whatsapp" aria-hidden="true"></i></a></li> */}
+                </ul>
+
+
+<Link to="/login" className='empLogin'>Employee Login</Link>
+              
                 <br />
             </footer>
         </section>

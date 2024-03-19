@@ -12,46 +12,54 @@ import EditUser from "./features/users/EditUser";
 import NewUserForm from "./features/users/NewUserForm";
 import EditNote from "./features/notes/EditNote";
 import NewNote from "./features/notes/NewNote";
-// import CustomerList from "./features/Customers/CustomerList";
-// import EditCustomer from "./features/Customers/EditCustomer";
-// import NewCustomerForm from "./features/Customers/NewCustomerForm";
-
+import PersistLogin from "./features/auth/PersistLogin";
 import Prefetch from "./features/auth/Prefetch";
 import PaymentList from "./features/payment/PaymentList";
 import EditPayment from "./features/payment/EditPayment";
 import NewPayment from "./features/payment/NewPayment";
+import RequireAuth from "./features/auth/RequireAuth";
+import { ROLES } from "./config/roles";
+import useTitle from "./hooks/useTItle";
+
 function App() {
+  useTitle("TechNotes")
   return (
     <Routes>
       <Route path="" element={<Layout />}>
+        {/* public routes */}
         <Route index element={<Public />} />
         <Route path="login" element={<Login />} />
+
+        {/* protected routes */}
+        <Route element={<PersistLogin />}>
+        <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
         <Route element={<Prefetch />}>
+          
           <Route path="dash" element={<DashLayout />}>
             <Route index element={<Welcome />} />
+
             <Route path="notes">
               <Route index element={<NotesList />} />
               <Route path=":id" element={<EditNote />} />
               <Route path="new" element={<NewNote />} />
             </Route>
+
             <Route path="users">
               <Route index element={<UsersList />} />
               <Route path=":id" element={<EditUser />} />
               <Route path="new" element={<NewUserForm />} />
             </Route>
-            {/* <Route path="customers">
-              <Route index element={<CustomerList />} />
-              <Route path=":id" element={<EditCustomer/>} />
-              <Route path=":new" element={<NewCustomerForm/>} />
-
-            </Route> */}
+          
             <Route path="payments">
               <Route index element={<PaymentList />} />
               <Route path=":id" element={<EditPayment/>} />
-              <Route path=":new" element={<NewPayment/>} />
             </Route>
+              <Route path="payments/new" element={<NewPayment/>} />
           </Route>
+          
+           </Route> {/*end dash */}
         </Route>
+      </Route>{/*end protected routes */}
       </Route>
     </Routes>
   );

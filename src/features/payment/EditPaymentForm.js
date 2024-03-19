@@ -6,23 +6,34 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../hooks/useAuth";
+
 
 const EditPaymentForm = ({ payment }) => {
-  const [updatePayment, { isLoading, isSuccess, isError, error }] =
-    useUpdatePaymentMutation();
+
+  const {isManager, isAdmin}= useAuth
+  const [updatePayment, { 
+    isLoading, 
+    isSuccess,
+     isError,
+      error 
+    }] = useUpdatePaymentMutation();
 
   const [
     deletePayment,
-    { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
+    { isSuccess:isDelSuccess, 
+      isError: isDelError, 
+      error: delerror },
   ] = useDeletePaymentMutation();
 
   const navigate = useNavigate();
-
+// console.log("payment: ", payment)
   const [name, setName] = useState(payment.name);
   const [amountPaid, setAmountPaid] = useState(payment.amountPaid);
   const [change, setChange] = useState(payment.change);
   const [otherMethods, setOtherMethods] = useState(payment.otherMethods);
   const [remarks, setRemarks] = useState(payment.remarks);
+  const id = payment.id
   
 
   useEffect(() => {
@@ -49,21 +60,23 @@ const EditPaymentForm = ({ payment }) => {
 
     const onSavePaymentClicked = async (e) => {
       e.preventDefault();
-      if (canSave) {
+      console.log("saving...")
         try {
+      if (canSave) {
           await updatePayment({
+            id,
             name,
             amountPaid,
             change,
             otherMethods,
             remarks,
           });
-        } catch (err) {
+        } 
+      }catch (err) {
           
           console.error("Error updating payment:", err);
          
         }
-      }
     };
 
   const onDeletePaymentClicked = async () => {
@@ -96,6 +109,20 @@ const EditPaymentForm = ({ payment }) => {
   const validRemarksClass = !remarks ? "form__input--incomplete" : "";
   const errContent = (error?.data?.message || delerror?.data?.message) ?? "";
 
+  let deleteButton = null
+  if (isManager || isAdmin) {
+      deleteButton = (
+          <button
+              className="icon-button"
+              title="Delete"
+              onClick={onDeletePaymentClicked}
+          >
+              <FontAwesomeIcon icon={faTrashCan} />
+          </button>
+      )
+  }
+
+
   const content = (
     <>
       <p className={errClass}>{errContent}</p>
@@ -112,13 +139,7 @@ const EditPaymentForm = ({ payment }) => {
             >
               <FontAwesomeIcon icon={faSave} />
             </button>
-            <button
-              className="icon-button"
-              title="Delete"
-              onClick={onDeletePaymentClicked}
-            >
-              <FontAwesomeIcon icon={faTrashCan} />
-            </button>
+            {deleteButton}
           </div>
         </div>
         <label className="form__label" htmlFor="name">

@@ -1,18 +1,21 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectPaymentById } from './paymentsApiSlice'
-
 import EditPaymentForm from './EditPaymentForm'
+import { useGetPaymentsQuery } from './paymentsApiSlice'
+import { PulseLoader } from 'react-spinners/PulseLoader'
+
 const EditPayment = () => {
   const { id } = useParams()
 
-    const payment = useSelector(state => selectPaymentById(state, id))
-    
+   const { payment } = useGetPaymentsQuery("paymentsList", {
+    selectFromResult: ({ data }) =>({
+      payment: data?.entities[id]
+    }),
+   })
+    if (!payment) return <PulseLoader color={"#FFF"} />
 
-    const content =payment ? <EditPaymentForm payment={payment}/> : <p>Loading...</p>
+    const content = <EditPaymentForm payment={payment}/> 
 
     return content
 }
-
 export default EditPayment
