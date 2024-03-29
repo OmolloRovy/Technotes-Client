@@ -161,7 +161,7 @@ a:focus-visible {
 }
 
 .dash-header__title{
-  text-align:center;
+  /* text-align:center; */
   display:column;
 }
 
@@ -169,7 +169,7 @@ a:focus-visible {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .dash-header__nav {
