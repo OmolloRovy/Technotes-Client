@@ -17,12 +17,12 @@ const {username, isManager, isAdmin} = useAuth()
       <h1>Welcome! {username}</h1>
       <p>
         <Link to="/dash/notes">
-          <button>Created Notes</button>
+          <button>Jobcards</button>
         </Link>
       
               
         <Link to="/dash/notes/new">
-          <button>Add New Note</button>
+          <button>Add New Jobcard </button>
         </Link>
 
         
