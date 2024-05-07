@@ -1,7 +1,6 @@
 # TECHNOTES FRONTEND
 
 
-
 ## Available 
 To start the project, you can run:
 
