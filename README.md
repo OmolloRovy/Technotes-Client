@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available 
-to  start the project, you can run:
+To start the project, you can run:
 
 ### `npm start`
 
