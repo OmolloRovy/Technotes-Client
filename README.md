@@ -1,4 +1,4 @@
-# TECHNOTES FRONTEND
+# Technotes Client
 
 ## Available 
 To start the project, you can run:
